@@ -1,1 +1,178 @@
-
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#17131b">
+<title>Three Hearts 2.0 — เงาในหัวใจ</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Playfair+Display:wght@500;600;700&display=swap');
+:root{--bg:#17131b;--panel:#241d29;--pink:#e9a2b7;--rose:#bd6685;--cream:#fff5f4;--muted:#c6b5c0;--line:#ffffff20}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#533447 0,#17131b 60%);color:var(--cream);font-family:Kanit,sans-serif;min-height:100vh;padding:20px}
+button,input{font:inherit}.wrap{max-width:1100px;margin:auto}.mast{display:flex;justify-content:space-between;align-items:center;margin:0 0 16px}.logo{font:600 24px 'Playfair Display';letter-spacing:2px}.logo span{color:var(--pink)}.tools{display:flex;gap:8px;flex-wrap:wrap}.small{background:#ffffff12;color:#fff;border:1px solid var(--line);border-radius:11px;padding:8px 12px;cursor:pointer;font-size:13px}.small:hover{background:#ffffff25}
+.layout{display:grid;grid-template-columns:1fr 290px;gap:16px}.game{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:#211a25;box-shadow:0 25px 70px #0008;min-height:690px;position:relative}
+.hero{height:240px;position:relative;background:linear-gradient(0deg,#211a25 0%,transparent 75%),url('https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1600&q=85') center 45%/cover}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#130f19aa,transparent 75%)}
+.heroText{position:absolute;z-index:1;left:25px;bottom:25px}.eyebrow{font-size:11px;letter-spacing:3px;color:#f1b5c7}.hero h1{font:600 clamp(28px,5vw,44px) 'Playfair Display';margin:4px 0}.hero p{margin:0;color:#eadce3;font-size:13px}
+.gamebody{padding:18px 22px 22px}.chapter{display:flex;justify-content:space-between;align-items:center;color:var(--pink);font-size:12px;letter-spacing:1px;margin-bottom:13px}.bar{height:4px;background:#ffffff15;border-radius:8px;overflow:hidden;width:130px}.bar i{display:block;height:100%;background:var(--pink);width:10%;transition:.3s}
+.cast{display:flex;gap:10px;margin-bottom:15px}.person{display:flex;align-items:center;gap:8px;background:#ffffff0b;border:1px solid var(--line);padding:6px 9px;border-radius:12px;min-width:0}.person img{width:39px;height:43px;object-fit:cover;object-position:center 25%;border-radius:8px}.person b{font-size:12px;display:block}.person span{font-size:10px;color:var(--muted)}
+.dialog{background:linear-gradient(135deg,#322634,#251e2b);border:1px solid #ffffff1c;border-radius:17px;padding:18px;margin-bottom:14px;min-height:140px}.speaker{font-size:12px;color:var(--pink);margin-bottom:7px}.line{font-size:16px;line-height:1.9;white-space:pre-line}.choices{display:grid;gap:9px}.choice{border:1px solid #ffffff25;background:#ffffff0d;color:#fff;text-align:left;border-radius:12px;padding:12px 14px;cursor:pointer;line-height:1.65;transition:.18s}.choice:hover{background:#643b53;border-color:#e9a2b7;transform:translateY(-1px)}.choice:disabled{opacity:.5;cursor:default}
+.sidebar{display:flex;flex-direction:column;gap:13px}.card{background:#241d29e8;border:1px solid var(--line);border-radius:18px;padding:15px}.card h3{margin:0 0 12px;font-size:14px;color:#f4c4d1;font-weight:500}.meter{margin:10px 0}.meterHead{display:flex;justify-content:space-between;font-size:12px;color:#e8d8e0;margin-bottom:5px}.track{height:7px;background:#ffffff16;border-radius:9px;overflow:hidden}.fill{height:100%;border-radius:9px;background:linear-gradient(90deg,#a95578,#f0a8bf);width:0%;transition:.35s}.castList{display:flex;align-items:center;gap:10px;margin:10px 0}.castList img{width:45px;height:49px;object-fit:cover;object-position:center 25%;border-radius:10px}.castList b{font-size:12px}.castList small{display:block;color:var(--muted);font-size:10px}
+.note{font-size:11px;color:#bdaeb8;line-height:1.7}.status{font-size:12px;color:#f3c6d3;line-height:1.8}.footer{display:flex;justify-content:space-between;gap:8px;margin-top:14px;color:#a997a5;font-size:10px}
+.overlay{position:absolute;inset:0;background:#100d14eF;z-index:5;display:grid;place-items:center;padding:20px}.modal{width:min(100%,560px);background:linear-gradient(145deg,#342534,#201923);border:1px solid #ffffff30;border-radius:22px;padding:28px;text-align:center;box-shadow:0 20px 80px #0009}.modal h2{font:600 42px 'Playfair Display';margin:8px 0;color:#ffe3eb}.modal p{color:#ddcbd4;line-height:1.9}.modal input{background:#ffffff12;border:1px solid #ffffff35;border-radius:10px;color:#fff;padding:12px;width:min(100%,270px);outline:none}.primary{background:linear-gradient(135deg,#f0b0c2,#c86d8e);border:0;color:#291923;border-radius:12px;padding:12px 22px;cursor:pointer;font-weight:600}.actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:16px}.hidden{display:none!important}.endTitle{font:600 34px 'Playfair Display';color:#ffdce6}.tag{display:inline-block;border:1px solid #ffffff25;padding:5px 10px;border-radius:30px;color:#f0b5c6;font-size:11px;margin:4px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr}.game{min-height:650px}}
+@media(max-width:540px){body{padding:10px}.mast{align-items:flex-start;gap:8px;flex-direction:column}.hero{height:195px}.gamebody{padding:14px}.cast{gap:5px}.person{padding:5px}.person img{width:32px;height:36px}.person span{display:none}.line{font-size:14px}.sidebar{grid-template-columns:1fr}.game{min-height:670px}}
+</style></head>
+<body><div class="wrap">
+<header class="mast"><div class="logo">THREE <span>HEARTS</span> <small style="font:400 10px Kanit;color:#bdaeb8">2.0</small></div>
+<div class="tools"><button class="small" id="musicBtn" onclick="toggleMusic()">♫ เพลง: ปิด</button><button class="small" onclick="toggleVoice()">◖ เสียงพูด: <span id="voiceState">เปิด</span></button><button class="small" onclick="saveGame(true)">บันทึก</button><button class="small" onclick="loadGame()">โหลดเกม</button></div></header>
+<div class="layout">
+<main class="game">
+<div class="hero"><div class="heroText"><div class="eyebrow">A SCHOOL ROMANCE · THAI VISUAL NOVEL</div><h1>เงาในหัวใจ</h1><p>บางความลับ… อาจทำลายทุกความสัมพันธ์</p></div></div>
+<div class="gamebody">
+<div class="chapter"><span id="chapterLabel">บทนำ · วันเปิดเทอม</span><span class="bar"><i id="progress"></i></span></div>
+<div class="cast">
+<div class="person"><img src="assets/kin.jpg" alt="คิน"><div><b>คิน</b><span>เพื่อนสนิท · อบอุ่น</span></div></div>
+<div class="person"><img src="assets/you.jpg" alt="มีนา"><div><b>มีนา</b><span>คุณ · ตัวเอก</span></div></div>
+<div class="person"><img src="assets/mesa.jpg" alt="เมษา"><div><b>เมษา</b><span>ประธานนักเรียน · ลึกลับ</span></div></div>
+</div>
+<div class="dialog"><div class="speaker" id="speaker">ผู้บรรยาย</div><div class="line" id="line">เสียงกริ่งเปิดเทอมดังขึ้น…</div></div>
+<div class="choices" id="choices"></div>
+<div class="footer"><span id="autosave">บันทึกอัตโนมัติเปิดอยู่</span><span>การตัดสินใจของคุณเปลี่ยนเรื่องราวได้</span></div>
+</div>
+<div class="overlay" id="startOverlay"><div class="modal"><div class="eyebrow">THREE HEARTS · CHAPTER 0</div><h2>เงาในหัวใจ</h2><p>โรงเรียนแห่งนี้มีความลับซ่อนอยู่ระหว่างคนสามคน<br>และความจริงที่ไม่มีใครกล้าพูดออกมา</p><input id="playerName" maxlength="16" placeholder="ชื่อของคุณ (ค่าเริ่มต้น: มีนา)"><div class="actions"><button class="primary" onclick="newGame()">เริ่มเรื่องราว</button><button class="small" onclick="loadGame()">เล่นต่อจากที่บันทึก</button></div><p class="note">เกมมีเนื้อหาความรัก ความหึงหวง การทรยศ และการสูญเสียความไว้ใจ</p></div></div>
+<div class="overlay hidden" id="endingOverlay"><div class="modal"><div class="eyebrow">YOUR STORY · THE END</div><div class="endTitle" id="endingTitle"></div><p id="endingText"></p><div id="endingTags"></div><div class="actions"><button class="primary" onclick="newGame()">เริ่มใหม่</button><button class="small" onclick="closeEnding()">กลับไปดูฉากจบ</button></div></div></div>
+</main>
+<aside class="sidebar">
+<div class="card"><h3>♡ สถานะความสัมพันธ์</h3>
+<div class="meter"><div class="meterHead"><span>ความรัก · คิน</span><b id="loveKin">0</b></div><div class="track"><div class="fill" id="barKin"></div></div></div>
+<div class="meter"><div class="meterHead"><span>ความรัก · เมษา</span><b id="loveMesa">0</b></div><div class="track"><div class="fill" id="barMesa"></div></div></div>
+<div class="meter"><div class="meterHead"><span>ความไว้ใจ</span><b id="trust">50</b></div><div class="track"><div class="fill" id="barTrust"></div></div>
+<div class="meter"><div class="meterHead"><span>ความหึงหวง</span><b id="jealousy">0</b></div><div class="track"><div class="fill" id="barJealousy"></div></div></div>
+</div>
+<div class="card"><h3>✦ คนสำคัญ</h3>
+<div class="castList"><img src="assets/kin.jpg" alt=""><div><b>คิน · เพื่อนที่รู้ใจ</b><small id="kinMood">ยังไม่รู้ความรู้สึก</small></div></div>
+<div class="castList"><img src="assets/mesa.jpg" alt=""><div><b>เมษา · ประธานนักเรียน</b><small id="mesaMood">มีบางอย่างปิดบังอยู่</small></div></div></div>
+<div class="card"><h3>✉ บันทึกเรื่องราว</h3><div class="status" id="journal">คุณเพิ่งก้าวเข้าสู่เรื่องราวนี้</div><p class="note">เกมจะบันทึกความคืบหน้าไว้ในเบราว์เซอร์เครื่องนี้โดยอัตโนมัติ</p></div>
+<div class="card"><h3>วิธีเล่น</h3><p class="note">เลือกคำตอบเพื่อเปลี่ยนค่าความรัก ความไว้ใจ และความหึงหวง ค่าที่ต่างกันจะเปิดเส้นทางและฉากจบที่แตกต่างกัน</p></div>
+</aside></div></div>
+<script>
+const $=id=>document.getElementById(id);
+const SAVE_KEY="threeHeartsV2Save";
+let S={node:"start",name:"มีนา",kin:0,mesa:0,trust:50,jealousy:0,flags:{},history:[],ending:null};
+let voiceOn=true,musicOn=false,audioCtx=null,musicTimer=null,oscillators=[];
+const story={
+start:{ch:"บทนำ · วันเปิดเทอม",bg:"school",who:"ผู้บรรยาย",text:"เสียงกริ่งเปิดเทอมดังขึ้น ณ โรงเรียนวชิรวิทยา คุณ—{name}—เดินเข้าห้อง ม.ปลายปีสุดท้ายพร้อมคิน เพื่อนสนิทที่อยู่ข้างคุณมาตลอด แต่ที่หน้าห้องประกาศผลประธานนักเรียน เมษากลับยืนมองคุณราวกับรู้จักกันมานาน",opts:[
+["เดินเข้าไปทักเมษาก่อน", "meetMesa",{mesa:2,jealousy:1}],
+["หันไปคุยกับคินเหมือนทุกวัน","talkKin",{kin:2,trust:2}],
+["ถามคินว่าเขารู้จักเมษาหรือเปล่า","askKin",{trust:1,flags:{askedKin:true}}]]},
+meetMesa:{ch:"บทที่ 1 · สายตาที่คุ้นเคย",who:"เมษา",text:"เมษายิ้มบาง ๆ “ในที่สุดก็ได้เจอกันอีกนะ {name} จำเราไม่ได้จริง ๆ เหรอ?” ก่อนที่คุณจะถามต่อ คินก็เดินเข้ามาขัดจังหวะ “มีนา ไปกันเถอะ” น้ำเสียงเขาไม่เหมือนเดิม",opts:[
+["ถามเมษาว่าเราเคยเจอกันที่ไหน", "oldMemory",{mesa:2,trust:1}],
+["เดินตามคินไปก่อน","hallway",{kin:1,jealousy:1}],
+["แนะนำให้ทั้งสองคนรู้จักกัน","triangle",{trust:2,jealousy:2}]]},
+talkKin:{ch:"บทที่ 1 · เพื่อนที่แสนดี",who:"คิน",text:"คินวางนมกล่องรสโปรดไว้บนโต๊ะ “เราซื้อมาเผื่อ เธอมักลืมกินข้าวเช้า” เขายิ้มเหมือนไม่มีอะไร แต่สายตากลับเหลือบไปทางเมษาที่กำลังมองคุณอยู่",opts:[
+["ขอบคุณและชวนคินกินข้าวด้วยกัน", "hallway",{kin:2,trust:2}],
+["ถามว่าทำไมเขาดูไม่ชอบเมษา","askKin",{trust:1,flags:{askedKin:true}}],
+["แกล้งถามว่าหึงหรือไง","triangle",{kin:1,jealousy:3}]]},
+askKin:{ch:"บทที่ 1 · เรื่องที่ไม่ยอมเล่า",who:"คิน",text:"คินนิ่งไปครู่หนึ่ง “เราแค่ไม่อยากให้เธอเจ็บอีก… เมษาไม่ใช่คนแบบที่เธอคิด” เขากำสายกระเป๋าแน่น เหมือนกำลังปิดบังอะไรบางอย่าง",opts:[
+["เชื่อใจคินและไม่ถามต่อ","hallway",{kin:2,trust:3}],
+["ขอให้เขาเล่าความจริงทั้งหมด","oldMemory",{trust:2,flags:{pressedKin:true}}],
+["บอกว่าเราตัดสินใจเองได้","triangle",{trust:-2,jealousy:1}]]},
+oldMemory:{ch:"บทที่ 2 · รูปถ่ายเก่า",who:"ผู้บรรยาย",text:"ในห้องสมุด คุณพบรูปถ่ายกิจกรรมเมื่อหลายปีก่อน มีเด็กผู้หญิงคนหนึ่งยืนอยู่ระหว่างคินกับเมษา ด้านหลังรูปมีลายมือเขียนว่า “สัญญาว่าจะไม่บอกมีนา” หัวใจคุณเต้นแรง—ชื่อของคุณอยู่ในรูปนี้",opts:[
+["เอารูปไปถามเมษา","confrontMesa",{mesa:2,trust:1,flags:{photo:true}}],
+["เอารูปไปถามคิน","confrontKin",{kin:2,trust:1,flags:{photo:true}}],
+["เก็บรูปไว้และสืบเอง","secretRoute",{trust:2,flags:{photo:true,secret:true}}]]},
+hallway:{ch:"บทที่ 2 · ข่าวลือ",who:"ผู้บรรยาย",text:"ข่าวลือแพร่ไปทั่วโรงเรียนว่าคุณกับเมษาเคยสนิทกันมาก่อน คินเริ่มเงียบลง ขณะเดียวกันเมษาส่งข้อความมาว่า “อย่าเพิ่งเชื่อสิ่งที่คินพูด เรามีเรื่องต้องอธิบาย”",opts:[
+["ไปพบเมษาหลังเลิกเรียน","confrontMesa",{mesa:2,jealousy:1}],
+["อยู่ช่วยคินจัดห้องเรียน","confrontKin",{kin:2,trust:2}],
+["นัดทั้งคู่มาคุยพร้อมกัน","triangle",{trust:1,jealousy:2}]]},
+triangle:{ch:"บทที่ 2 · ระหว่างเราสามคน",who:"คิน",text:"คินมองเมษาแล้วหันมาหาคุณ “ถ้าเธอรู้ทุกอย่าง เธออาจไม่อยากมองหน้าเราอีก” เมษาสวนกลับทันที “คนที่ควรพูดความจริงคือเรา ไม่ใช่นาย” บรรยากาศตึงเครียดจนคุณต้องเป็นคนเลือก",opts:[
+["ให้เมษาเป็นคนพูด","confrontMesa",{mesa:2,trust:1}],
+["ให้คินพูดก่อน","confrontKin",{kin:2,trust:1}],
+["บอกว่าถ้าไม่พูดทั้งคู่ เราจะเดินออกไป","secretRoute",{trust:-1,flags:{secret:true}}]]},
+confrontMesa:{ch:"บทที่ 3 · คำสารภาพของเมษา",who:"เมษา",text:"เมษาก้มหน้า “ตอนเด็กเราเคยเป็นเพื่อนสนิทกัน… แล้ววันหนึ่งเกิดอุบัติเหตุในงานโรงเรียน เธอจำไม่ได้เพราะได้รับบาดเจ็บ เรากับคินสัญญาว่าจะไม่เล่า เพราะกลัวเธอจะโทษตัวเอง” เมษาน้ำตาคลอ “แต่มีบางส่วนที่เรายังไม่ได้บอก”",opts:[
+["ถามว่าอุบัติเหตุเกิดจากอะไร","accident",{mesa:2,trust:2,flags:{heardMesa:true}}],
+["ถามว่าทำไมถึงกลับมาใกล้ชิด","motive",{mesa:2,jealousy:1}],
+["บอกว่าไม่อยากฟังคำโกหกอีกแล้ว","secretRoute",{trust:-2,flags:{angry:true}}]]},
+confrontKin:{ch:"บทที่ 3 · คำสารภาพของคิน",who:"คิน",text:"คินถอนหายใจ “วันนั้นเราเป็นคนปล่อยมือเธอเอง… เราคิดว่าถ้าบอกความจริง เธอจะเกลียดเรา” เขามองคุณด้วยแววตาเจ็บปวด “เราเลยอยู่ข้างเธอมาตลอดเพื่อชดเชย ทั้งที่รู้ว่ามันไม่ยุติธรรมกับเธอ”",opts:[
+["ถามว่าทำไมถึงไม่บอกตั้งแต่แรก","accident",{kin:2,trust:2,flags:{heardKin:true}}],
+["จับมือคินและขอให้พูดต่อ","motive",{kin:2,jealousy:1}],
+["ถอยออกมาเพราะรับไม่ไหว","secretRoute",{trust:-2,flags:{angry:true}}]]},
+motive:{ch:"บทที่ 3 · เหตุผลที่กลับมา",who:"เมษา",text:"เมษาเล่าว่าเธอกลับมาเพราะได้รับจดหมายฉบับหนึ่งที่มีชื่อคุณอยู่ในนั้น “คนเขียนบอกว่าอุบัติเหตุวันนั้นไม่ใช่เรื่องบังเอิญ และคนที่ทำให้ทุกอย่างเกิดขึ้นยังอยู่ในโรงเรียนนี้”",opts:[
+["ขอดูจดหมาย","secretRoute",{trust:2,flags:{letter:true,secret:true}}],
+["ถามคินว่าเขารู้อะไร","accident",{kin:1,trust:1}],
+["ไม่ยุ่งกับเรื่องนี้อีก","finalChoice",{trust:-1}]]},
+accident:{ch:"บทที่ 4 · คืนวันงานโรงเรียน",who:"ผู้บรรยาย",text:"ความทรงจำกลับมาเป็นภาพสั้น ๆ: ฝนตก เวทีไฟดับ เสียงใครบางคนเรียกชื่อคุณ และมือที่ผลักประตูฉุกเฉิน… คุณเริ่มเข้าใจว่าทั้งสองคนปกป้องคุณจากความจริง แต่การปกป้องนั้นกลับกลายเป็นคำโกหกยาวนานหลายปี",opts:[
+["เปิดโปงทุกอย่างต่อหน้าครู","reveal",{trust:2,flags:{truth:true}}],
+["ขอให้ทั้งสองคนเล่าความจริงพร้อมกัน","reveal",{trust:3,flags:{truth:true}}],
+["หนีออกจากห้องและไปหาหลักฐานเอง","secretRoute",{trust:1,flags:{secret:true}}]]},
+secretRoute:{ch:"บทลับ · จดหมายที่ไม่มีผู้ส่ง",who:"ผู้บรรยาย",text:"คุณเปิดช่องลับในตู้เก็บเอกสาร พบจดหมายที่เขียนด้วยลายมือของตัวเองในอดีต: “ถ้าเธอได้อ่าน แปลว่าเราลืมไปแล้วว่าใครเป็นคนล็อกประตูห้องเก็บของในวันนั้น” ท้ายจดหมายมีชื่อคนเขียน—มีนา",opts:[
+["อ่านจดหมายจนจบ","reveal",{trust:2,flags:{secret:true,letter:true,truth:true}}],
+["เผาจดหมายและเก็บเรื่องนี้ไว้","finalChoice",{trust:-2,flags:{secret:true}}],
+["เอาจดหมายไปให้คินกับเมษาดู","reveal",{trust:1,flags:{secret:true,truth:true}}]]},
+reveal:{ch:"บทที่ 5 · ความจริงที่แตกสลาย",who:"ผู้บรรยาย",text:"ความจริงเปิดเผยว่าในวันเกิดเหตุ คุณเป็นคนล็อกประตูห้องเก็บอุปกรณ์โดยไม่รู้ว่ามีคนอยู่ข้างใน เมื่อเกิดไฟฟ้าลัดวงจร คินและเมษาช่วยกันพาคุณออกมา แต่เมษาบาดเจ็บและคินรับผิดแทนคุณ ทั้งคู่ปิดบังเรื่องนี้เพราะคุณสูญเสียความทรงจำบางส่วน",opts:[
+["ยอมรับความจริงและขอโทษทั้งคู่","finalChoice",{trust:3,flags:{accepted:true}}],
+["โกรธที่ทุกคนตัดสินใจแทนเรา","finalChoice",{trust:-2,jealousy:2,flags:{angry:true}}],
+["ถามว่าใครเป็นคนส่งจดหมาย","twist",{trust:1,flags:{truth:true}}]]},
+twist:{ch:"บทลับ · คนที่ส่งจดหมาย",who:"เสียงปริศนา",text:"เสียงจากโทรศัพท์ดังขึ้น “คนส่งจดหมายคือเราเอง” เป็นเสียงของครูที่ดูแลห้องพยาบาลในวันนั้น เธอเปิดเผยว่ามีคนลบรายงานอุบัติเหตุเพื่อปกป้องชื่อเสียงโรงเรียน และคินกับเมษาไม่เคยรู้เรื่องนี้ทั้งหมด",opts:[
+["ขอให้เปิดเผยรายงานต่อทุกคน","finalChoice",{trust:3,flags:{truth:true,exposed:true}}],
+["เก็บความจริงไว้เพื่อปกป้องทุกคน","finalChoice",{trust:-1,flags:{secret:true}}],
+["ถามคินและเมษาว่าจะเริ่มใหม่ได้ไหม","finalChoice",{kin:1,mesa:1,trust:2,flags:{accepted:true}}]]},
+finalChoice:{ch:"บทสุดท้าย · คำตอบของหัวใจ",who:"ผู้บรรยาย",text:"หลังจากความจริงถูกเปิดเผย คุณยืนอยู่ที่สนามโรงเรียนในวันที่ฝนหยุดตก คินและเมษารอคำตอบ ไม่มีใครเร่งรัดคุณอีกแล้ว คราวนี้คุณจะเลือกจากหัวใจ หรือเลือกเดินออกมาเพื่อเริ่มต้นใหม่?",opts:[
+["เลือกคิน คนที่อยู่ข้างเรามาตลอด","END_KIN",{kin:3,trust:2}],
+["เลือกเมษา คนที่อยากแก้ไขอดีต","END_MESA",{mesa:3,trust:2}],
+["ไม่เลือกใคร ขอเริ่มต้นใหม่ด้วยตัวเอง","END_ALONE",{trust:3}],
+["ถามทั้งคู่ถึงสิ่งที่ยังปิดบัง","END_SECRET",{trust:1,flags:{secret:true}}]]}
+};
+function clamp(n){return Math.max(0,Math.min(100,n))}
+function newGame(){S={node:"start",name:($("playerName").value.trim()||"มีนา"),kin:0,mesa:0,trust:50,jealousy:0,flags:{},history:[],ending:null};$("startOverlay").classList.add("hidden");$("endingOverlay").classList.add("hidden");render();saveGame(false)}
+function render(){
+ const n=story[S.node]; if(!n){showEnding(S.node);return}
+ $("chapterLabel").textContent=n.ch;$("speaker").textContent=n.who;$("line").textContent=n.text.replaceAll("{name}",S.name);
+ $("progress").style.width=(Math.min(100,(Object.keys(story).indexOf(S.node)+1)/Object.keys(story).length*100))+"%";
+ const box=$("choices");box.innerHTML="";
+ n.opts.forEach(o=>{let b=document.createElement("button");b.className="choice";b.textContent=o[0];b.onclick=()=>choose(o);box.appendChild(b)});
+ updateUI();if(voiceOn)speak(n.who+" "+n.text.replaceAll("{name}",S.name));saveGame(false);
+}
+function choose(o){
+ const [label,next,delta]=o;S.history.push({node:S.node,choice:label});
+ S.kin=clamp(S.kin+(delta.kin||0));S.mesa=clamp(S.mesa+(delta.mesa||0));S.trust=clamp(S.trust+(delta.trust||0));S.jealousy=clamp(S.jealousy+(delta.jealousy||0));
+ if(delta.flags)Object.assign(S.flags,delta.flags);
+ S.node=next;
+ if(next.startsWith("END_")){showEnding(next);return}
+ render();
+}
+function updateUI(){
+ $("loveKin").textContent=S.kin;$("loveMesa").textContent=S.mesa;$("trust").textContent=S.trust;$("jealousy").textContent=S.jealousy;
+ $("barKin").style.width=S.kin+"%";$("barMesa").style.width=S.mesa+"%";$("barTrust").style.width=S.trust+"%";$("barJealousy").style.width=S.jealousy+"%";
+ $("kinMood").textContent=S.kin>8?"เริ่มเปิดใจให้คุณ":S.kin>3?"เป็นห่วงคุณ":"เก็บความรู้สึกไว้";
+ $("mesaMood").textContent=S.mesa>8?"อยากแก้ไขอดีต":S.mesa>3?"เริ่มไว้ใจคุณ":"ยังมีความลับ";
+ $("journal").textContent=S.history.length?S.history.slice(-3).map(x=>"• "+x.choice).join("\n"):"คุณเพิ่งก้าวเข้าสู่เรื่องราวนี้";
+}
+function showEnding(key){
+ S.ending=key;let title="",body="",tags=[];
+ if(key==="END_KIN"){
+  if(S.trust<35){title="รักที่เต็มไปด้วยรอยร้าว";body="คุณเลือกคิน แต่ความลับที่ยังค้างคาทำให้ความสัมพันธ์ไม่อาจกลับไปเหมือนเดิม เขายอมรับว่าจะไม่ขอให้คุณให้อภัยในวันนี้";tags=["รักที่ยังไม่สมบูรณ์","ความไว้ใจต่ำ"]}
+  else{title="คนที่จับมือไว้ในวันที่ฝนตก";body="คุณเลือกคิน เขาสัญญาว่าจะไม่ใช้ความเงียบปกป้องคุณอีก ความรักครั้งนี้เริ่มต้นใหม่ด้วยความจริง แม้รอยแผลจะยังอยู่";tags=["คิน","เริ่มต้นใหม่"]}}
+ else if(key==="END_MESA"){
+  if(S.jealousy>35){title="อดีตที่ตามหลอกหลอน";body="คุณเลือกเมษา แต่ความหึงหวงและความกลัวทำให้ทุกคำพูดกลายเป็นข้อสงสัย เมษาจับมือคุณไว้ ก่อนกระซิบว่าเราต้องเรียนรู้ที่จะเชื่อใจกันใหม่";tags=["เมษา","รักที่เปราะบาง"]}
+  else{title="จดหมายฉบับใหม่";body="คุณเลือกเมษา เธอไม่ได้ขอให้คุณลืมอดีต แต่ขอโอกาสสร้างความทรงจำใหม่ที่ไม่ต้องมีความลับระหว่างกัน";tags=["เมษา","โอกาสครั้งที่สอง"]}}
+ else if(key==="END_ALONE"){title="วันที่เลือกตัวเอง";body="คุณเดินออกจากสนามโดยไม่หันกลับไป ทั้งคินและเมษาเคารพการตัดสินใจของคุณ บางครั้งการรักตัวเองคือการตัดสินใจที่เจ็บปวด แต่จำเป็น";tags=["อิสระ","เริ่มต้นใหม่"]}
+ else{
+  if(S.flags.secret&&S.flags.truth&&S.trust>=55){title="ฉากจบลับ · คนที่สามในเงามืด";body="คุณพบว่าครูผู้ส่งจดหมายเป็นคนเดียวที่รู้ความจริงทั้งหมด และเธอเก็บหลักฐานต้นฉบับไว้ คุณทั้งสามร่วมกันเปิดโปงการปกปิดของโรงเรียน ความสัมพันธ์อาจไม่เหมือนเดิม แต่ไม่มีใครต้องแบกความผิดเพียงลำพังอีก";tags=["SECRET ENDING","ความจริงถูกเปิดเผย"]}
+  else{title="ฉากจบหักมุม · ความทรงจำที่เลือกได้";body="คุณถามทั้งคู่ถึงสิ่งที่ยังปิดบัง แต่กลับพบว่าจดหมายฉบับสุดท้ายถูกเขียนโดยตัวคุณเองในอดีต คุณเคยขอให้ทุกคนลืมเรื่องนี้ เพราะคุณเองก็ไม่พร้อมเผชิญหน้าความจริง";tags=["TWIST ENDING","ความทรงจำ"]}}
+ $("endingTitle").textContent=title;$("endingText").textContent=body;$("endingTags").innerHTML=tags.map(t=>'<span class="tag">'+t+'</span>').join("");
+ $("endingOverlay").classList.remove("hidden");$("chapterLabel").textContent="บทส่งท้าย";saveGame(false);
+}
+function closeEnding(){$("endingOverlay").classList.add("hidden")}
+function saveGame(show){try{localStorage.setItem(SAVE_KEY,JSON.stringify(S));$("autosave").textContent="บันทึกอัตโนมัติล่าสุดแล้ว";if(show)alert("บันทึกเกมเรียบร้อยแล้วในเบราว์เซอร์นี้")}catch(e){if(show)alert("บันทึกไม่ได้: เบราว์เซอร์อาจปิดการใช้พื้นที่จัดเก็บ")}}
+function loadGame(){try{let raw=localStorage.getItem(SAVE_KEY);if(!raw){alert("ยังไม่มีข้อมูลบันทึก");return}S=JSON.parse(raw);$("startOverlay").classList.add("hidden");if(S.ending){showEnding(S.ending)}else render()}catch(e){alert("อ่านไฟล์บันทึกไม่สำเร็จ")}}
+function speak(t){if(!("speechSynthesis"in window))return;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang="th-TH";u.rate=.94;u.pitch=1.03;let vs=speechSynthesis.getVoices();let th=vs.find(v=>v.lang.toLowerCase().startsWith("th"));if(th)u.voice=th;speechSynthesis.speak(u)}
+function toggleVoice(){voiceOn=!voiceOn;$("voiceState").textContent=voiceOn?"เปิด":"ปิด";if(!voiceOn&&"speechSynthesis"in window)speechSynthesis.cancel();else if(story[S.node])speak(story[S.node].text.replaceAll("{name}",S.name))}
+function toggleMusic(){musicOn=!musicOn;$("musicBtn").textContent="♫ เพลง: "+(musicOn?"เปิด":"ปิด");if(musicOn)startMusic();else stopMusic()}
+function startMusic(){
+ try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();audioCtx.resume();stopMusic();let notes=[220,261.63,329.63,293.66,246.94,293.66,349.23,329.63],i=0;
+ musicTimer=setInterval(()=>{if(!musicOn)return;let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type="sine";o.frequency.value=notes[i++%notes.length];g.gain.setValueAtTime(.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.035,audioCtx.currentTime+.12);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+1.1);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+1.15)},650)}catch(e){console.log(e)}
+}
+function stopMusic(){if(musicTimer)clearInterval(musicTimer);musicTimer=null}
+window.addEventListener("beforeunload",()=>{if(S)saveGame(false)});
+</script></body></html>
