@@ -122,6 +122,82 @@ finalChoice:{ch:"บทสุดท้าย · คำตอบของหั�
 ["เลือกเมษา คนที่อยากแก้ไขอดีต","END_MESA",{mesa:3,trust:2}],
 ["ไม่เลือกใคร ขอเริ่มต้นใหม่ด้วยตัวเอง","END_ALONE",{trust:3}],
 ["ถามทั้งคู่ถึงสิ่งที่ยังปิดบัง","END_SECRET",{trust:1,flags:{secret:true}}]]}
+ 
+// เหตุการณ์คินหึง
+jealousScene: {
+  ch: "เหตุการณ์พิเศษ · ความหึงหวง",
+  who: "คิน",
+  text: "เราเห็นเธออยู่กับเมษา... เธอชอบเขาเหรอ? แล้วเราล่ะ มีความหมายกับเธอบ้างไหม",
+  opts: [
+    ["นายสำคัญกับเรามากนะ", "nightMessage",
+      {kin: 10, trust: 5, flags:{jealousScene:true}}],
+    ["เราเป็นแค่เพื่อนกันนะ", "nightMessage",
+      {kin: -5, jealousy: 5, flags:{jealousScene:true}}],
+    ["นายกำลังหึงเราอยู่เหรอ?", "nightMessage",
+      {kin: 5, jealousy: 3, flags:{jealousScene:true}}]
+  ]
+},
+
+// เมษาส่งข้อความตอนกลางคืน
+nightMessage: {
+  ch: "เหตุการณ์พิเศษ · ข้อความยามค่ำคืน",
+  who: "เมษา",
+  text: "เมษาส่งข้อความมาตอนเที่ยงคืน: 'เรายังคิดถึงเธออยู่ ถ้าเป็นไปได้ อยากกลับไปเป็นเหมือนเดิม'",
+  opts: [
+    ["เราก็คิดถึงเธอเหมือนกัน", "confession",
+      {mesa: 10, trust: 5, flags:{nightMessage:true}}],
+    ["ตอนนี้เรามีคินแล้ว", "confession",
+      {kin: 5, mesa: -5, flags:{nightMessage:true}}],
+    ["ขอเวลาคิดหน่อยนะ", "confession",
+      {trust: 5, flags:{nightMessage:true}}]
+  ]
+},
+
+// คินสารภาพรักกลางสายฝน
+confession: {
+  ch: "เหตุการณ์พิเศษ · คำสารภาพกลางสายฝน",
+  who: "คิน",
+  text: "คินยืนอยู่กลางสายฝน ก่อนพูดว่า 'เราชอบเธอมานานแล้ว มีนา เราไม่อยากเป็นแค่เพื่อนอีกต่อไป'",
+  opts: [
+    ["เราก็รักนายเหมือนกัน", "fight",
+      {kin: 15, trust: 10, flags:{confession:true}}],
+    ["ขอเวลาหน่อยนะ", "fight",
+      {kin: 3, trust: 3, flags:{confession:true}}],
+    ["ขอโทษนะ เรารักคนอื่น", "fight",
+      {kin: -10, jealousy: 10, flags:{confession:true}}]
+  ]
+},
+
+// คินกับเมษาทะเลาะกัน
+fight: {
+  ch: "เหตุการณ์พิเศษ · การเผชิญหน้า",
+  who: "เมษา",
+  text: "เมษาเดินเข้ามาหาคิน 'นายไม่มีสิทธิ์มาห้ามเรา!' คินตอบกลับทันที 'แล้วเธอล่ะ เคยคิดถึงความรู้สึกของมีนาบ้างไหม?' ทั้งสองคนเริ่มทะเลาะกัน",
+  opts: [
+    ["เข้าข้างคิน", "trustTrial",
+      {kin: 10, mesa: -5, jealousy: 5, flags:{fight:true}}],
+    ["เข้าข้างเมษา", "trustTrial",
+      {mesa: 10, kin: -5, jealousy: 5, flags:{fight:true}}],
+    ["ห้ามทั้งสองคนและเดินออกมา", "trustTrial",
+      {trust: 10, jealousy: -5, flags:{fight:true}}]
+  ]
+},
+
+// บททดสอบความไว้ใจ
+trustTrial: {
+  ch: "เหตุการณ์พิเศษ · ความไว้ใจ",
+  who: "ผู้บรรยาย",
+  text: "คุณพบหลักฐานบางอย่างที่แสดงว่าหนึ่งในสองคนกำลังปิดบังความจริง คุณจะเลือกเชื่อใจใคร?",
+  opts: [
+    ["เชื่อใจคิน", "finalChoice",
+      {kin: 10, trust: 10, flags:{trustKin:true}}],
+    ["เชื่อใจเมษา", "finalChoice",
+      {mesa: 10, trust: 10, flags:{trustMesa:true}}],
+    ["ไม่เชื่อใครทั้งนั้น", "finalChoice",
+      {trust: -10, flags:{trustNobody:true}}]
+  ]
+}
+
 };
 function clamp(n){return Math.max(0,Math.min(100,n))}
 function newGame(){S={node:"start",name:($("playerName").value.trim()||"มีนา"),kin:0,mesa:0,trust:50,jealousy:0,flags:{},history:[],ending:null};$("startOverlay").classList.add("hidden");$("endingOverlay").classList.add("hidden");render();saveGame(false)}
@@ -130,16 +206,62 @@ function render(){
  $("chapterLabel").textContent=n.ch;$("speaker").textContent=n.who;$("line").textContent=n.text.replaceAll("{name}",S.name);
  $("progress").style.width=(Math.min(100,(Object.keys(story).indexOf(S.node)+1)/Object.keys(story).length*100))+"%";
  const box=$("choices");box.innerHTML="";
- n.opts.forEach(o=>{let b=document.createElement("button");b.className="choice";b.textContent=o[0];b.onclick=()=>choose(o);box.appendChild(b)});
- updateUI();if(voiceOn)speak(n.who+" "+n.text.replaceAll("{name}",S.name));saveGame(false);
+ n.opts.forEach(o=>{
+const available = [...n.opts];
+
+// ปลดล็อกเมื่อคินเริ่มหึง
+if (S.jealousy >= 20 && !S.flags.jealousScene) {
+  available.push([
+    "🔒 คินเริ่มแสดงความหึงหวง",
+    "jealousScene",
+    {flags:{jealousScene:true}}
+  ]);
 }
-function choose(o){
- const [label,next,delta]=o;S.history.push({node:S.node,choice:label});
- S.kin=clamp(S.kin+(delta.kin||0));S.mesa=clamp(S.mesa+(delta.mesa||0));S.trust=clamp(S.trust+(delta.trust||0));S.jealousy=clamp(S.jealousy+(delta.jealousy||0));
- if(delta.flags)Object.assign(S.flags,delta.flags);
- S.node=next;
- if(next.startsWith("END_")){showEnding(next);return}
- render();
+
+// ปลดล็อกข้อความกลางคืน
+if (S.mesa >= 15 && !S.flags.nightMessage) {
+  available.push([
+    "📱 เปิดอ่านข้อความจากเมษา",
+    "nightMessage",
+    {flags:{nightMessage:true}}
+  ]);
+}
+
+// ปลดล็อกคำสารภาพเมื่อหัวใจคินถึง 80
+if (S.kin >= 80 && !S.flags.confession) {
+  available.push([
+    "❤️ คินอยากสารภาพบางอย่าง",
+    "confession",
+    {flags:{confession:true}}
+  ]);
+}
+
+// ปลดล็อกฉากทะเลาะ
+if (S.jealousy >= 30 && !S.flags.fight) {
+  available.push([
+    "⚡ เกิดเหตุการณ์ทะเลาะกัน",
+    "fight",
+    {flags:{fight:true}}
+  ]);
+}
+
+// ปลดล็อกบททดสอบความไว้ใจ
+if (S.trust >= 65 && !S.flags.trustKin && !S.flags.trustMesa && !S.flags.trustNobody) {
+  available.push([
+    "🔐 บททดสอบความไว้ใจ",
+    "trustTrial",
+    {}
+  ]);
+}
+
+available.forEach(o => {
+  const b = document.createElement("button");
+  b.className = "choice";
+  b.textContent = o[0];
+  b.onclick = () => choose(o);
+  box.appendChild(b);
+});
+
 }
 function updateUI(){
  $("loveKin").textContent=S.kin;$("loveMesa").textContent=S.mesa;$("trust").textContent=S.trust;$("jealousy").textContent=S.jealousy;
@@ -158,7 +280,7 @@ function showEnding(key){
   else{title="จดหมายฉบับใหม่";body="คุณเลือกเมษา เธอไม่ได้ขอให้คุณลืมอดีต แต่ขอโอกาสสร้างความทรงจำใหม่ที่ไม่ต้องมีความลับระหว่างกัน";tags=["เมษา","โอกาสครั้งที่สอง"]}}
  else if(key==="END_ALONE"){title="วันที่เลือกตัวเอง";body="คุณเดินออกจากสนามโดยไม่หันกลับไป ทั้งคินและเมษาเคารพการตัดสินใจของคุณ บางครั้งการรักตัวเองคือการตัดสินใจที่เจ็บปวด แต่จำเป็น";tags=["อิสระ","เริ่มต้นใหม่"]}
  else{
-  if(S.flags.secret&&S.flags.truth&&S.trust>=55){title="ฉากจบลับ · คนที่สามในเงามืด";body="คุณพบว่าครูผู้ส่งจดหมายเป็นคนเดียวที่รู้ความจริงทั้งหมด และเธอเก็บหลักฐานต้นฉบับไว้ คุณทั้งสามร่วมกันเปิดโปงการปกปิดของโรงเรียน ความสัมพันธ์อาจไม่เหมือนเดิม แต่ไม่มีใครต้องแบกความผิดเพียงลำพังอีก";tags=["SECRET ENDING","ความจริงถูกเปิดเผย"]}
+ if(S.kin>=100&&S.mesa>=100&&S.trust>=80&&S.flags.truth){title="ฉากจบลับ · คนที่สามในเงามืด";body="คุณพบว่าครูผู้ส่งจดหมายเป็นคนเดียวที่รู้ความจริงทั้งหมด และเธอเก็บหลักฐานต้นฉบับไว้ คุณทั้งสามร่วมกันเปิดโปงการปกปิดของโรงเรียน ความสัมพันธ์อาจไม่เหมือนเดิม แต่ไม่มีใครต้องแบกความผิดเพียงลำพังอีก";tags=["SECRET ENDING","ความจริงถูกเปิดเผย"]}
   else{title="ฉากจบหักมุม · ความทรงจำที่เลือกได้";body="คุณถามทั้งคู่ถึงสิ่งที่ยังปิดบัง แต่กลับพบว่าจดหมายฉบับสุดท้ายถูกเขียนโดยตัวคุณเองในอดีต คุณเคยขอให้ทุกคนลืมเรื่องนี้ เพราะคุณเองก็ไม่พร้อมเผชิญหน้าความจริง";tags=["TWIST ENDING","ความทรงจำ"]}}
  $("endingTitle").textContent=title;$("endingText").textContent=body;$("endingTags").innerHTML=tags.map(t=>'<span class="tag">'+t+'</span>').join("");
  $("endingOverlay").classList.remove("hidden");$("chapterLabel").textContent="บทส่งท้าย";saveGame(false);
